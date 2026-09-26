@@ -112,10 +112,32 @@ For multi-process/concurrent use (and for production), point `DATABASE_URL` at S
 
 ## Deployment
 
-1. Create a Postgres database on Supabase or Neon.
+Deployed on Vercel with a Neon Postgres database (provisioned through the Vercel
+Marketplace integration, which injects `DATABASE_URL` into all environments):
+
+- Production: https://ram-prasad-crm.vercel.app
+
+Required environment variables: `DATABASE_URL` and `SESSION_SECRET` (both set in
+Vercel for production, preview and development).
+
+To deploy your own copy:
+
+1. Create a Postgres database on Neon or Supabase.
 2. Set environment variables (see `.env.example`): `DATABASE_URL`, `SESSION_SECRET`.
-3. Run migrations once: `npm run db:migrate` (and `npm run db:seed` if you want the demo data).
-4. Deploy to Vercel/Netlify. The app uses only `DATABASE_URL` and `SESSION_SECRET`.
+3. Run migrations once against it: `DATABASE_URL=... npm run db:migrate`
+   (and `npm run db:seed` only if you want the demo dataset).
+4. Deploy to Vercel/Netlify, or with the CLI: `vercel --prod`.
+
+Useful commands:
+
+```bash
+vercel env pull .env.production.local --environment=production   # local copy of prod env
+vercel logs <deployment-url>                                      # runtime logs (Pro)
+npx tsx scripts/setpassword.ts <new-password> [email]             # set a password (all users if no email)
+```
+
+Note: `db:seed` is demo data only. Before sharing a public URL, rotate the seeded
+credentials with `scripts/setpassword.ts` and create real users from Admin.
 
 ## Verification
 
