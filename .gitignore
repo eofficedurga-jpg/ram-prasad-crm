@@ -1,6 +1,10 @@
 node_modules
 .next
 .vercel
+.agents
+.claude
+agent
+skills-lock.json
 .env
 .env.*
 !.env.example
